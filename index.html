@@ -1,64 +1,45 @@
 <!doctype html>
-<html lang="en">
+<html>
 <head>
-<meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#111827">
 <title>Daily Discipline Tracker</title>
 <style>
-*{box-sizing:border-box}
-body{margin:0;background:#f5f7fb;color:#172033;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
-.wrap{max-width:720px;margin:auto;padding:16px 14px 40px}
-.top{display:flex;justify-content:space-between;align-items:center}
-h1{font-size:28px;margin:4px 0}.sub{color:#667085;font-size:14px}
+*{box-sizing:border-box}body{margin:0;background:#f5f7fb;color:#172033;font-family:system-ui,-apple-system,Segoe UI,Arial,sans-serif}
+.wrap{max-width:720px;margin:auto;padding:16px 14px 40px}.top{display:flex;justify-content:space-between;align-items:center}
+h1{font-size:28px;margin:4px 0}.sub,.small{color:#667085;font-size:13px}
 .card{background:white;border:1px solid #e5e7eb;border-radius:18px;padding:16px;margin-top:14px;box-shadow:0 8px 24px #10182814}
-.quote{font-size:21px;line-height:1.35;font-weight:750;text-align:center;padding:22px 14px}
-.nav{display:flex;align-items:center;justify-content:space-between;gap:8px}
-.date{font-weight:750;text-align:center;flex:1}
-button{border:1px solid #e5e7eb;background:white;color:#172033;border-radius:12px;padding:10px 13px;font-size:15px}
-.habit{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 0;border-bottom:1px solid #e5e7eb}
-.habit:last-child{border-bottom:0}.habit span{font-size:16px}
-.check{width:48px;height:42px;border-radius:12px;font-size:21px;font-weight:800}
-.check.on{background:#dcfce7;border-color:#86efac;color:#15803d}
-.check.off{background:white;color:#98a2b3}
-.stats{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
-.stat{background:#f8fafc;border-radius:14px;padding:14px;text-align:center}
-.num{font-size:24px;font-weight:800}.lbl{font-size:12px;color:#667085}
-.progress{height:11px;background:#e5e7eb;border-radius:99px;overflow:hidden;margin-top:10px}
-.bar{height:100%;background:#2563eb;width:0}
-h2{font-size:18px;margin:0 0 10px}
-.monthgrid{display:grid;grid-template-columns:repeat(7,1fr);gap:5px}
-.dow{font-size:11px;color:#667085;text-align:center;padding-bottom:3px}
-.day{min-height:42px;border:1px solid #e5e7eb;border-radius:8px;background:white;display:flex;align-items:center;justify-content:center;font-size:12px}
-.day.full{background:#dcfce7;border-color:#86efac;color:#166534;font-weight:800}
-.day.partial{background:#fef3c7;border-color:#fcd34d}
-.day.today{outline:2px solid #2563eb}
-.small{font-size:12px;color:#667085}
-.actions{display:flex;gap:8px;flex-wrap:wrap}
-@media(min-width:600px){.stats{grid-template-columns:repeat(4,1fr)}}
+.quote{text-align:center;font-size:21px;line-height:1.35;font-weight:750;padding:20px 10px}
+.nav{display:flex;align-items:center;gap:8px}.date{flex:1;text-align:center;font-weight:700}
+button{border:1px solid #ddd;background:white;border-radius:12px;padding:10px 13px;font-size:15px}
+.habit{display:flex;justify-content:space-between;align-items:center;padding:14px 0;border-bottom:1px solid #eee}
+.habit:last-child{border:0}.hour{width:105px;height:42px;border:1px solid #ddd;border-radius:11px;padding:8px;font-size:16px;text-align:right}
+.unit{font-size:13px;color:#667085;margin-left:5px}.check{width:48px;height:42px;font-size:21px;font-weight:bold}
+.on{background:#dcfce7;color:#15803d;border-color:#86efac}.off{color:#98a2b3}
+.stats{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.stat{background:#f8fafc;border-radius:14px;padding:14px;text-align:center}
+.num{font-size:23px;font-weight:800}.lbl{font-size:12px;color:#667085}.barbg{height:11px;background:#e5e7eb;border-radius:99px;overflow:hidden;margin-top:10px}.bar{height:100%;background:#2563eb;width:0}
+.summary{display:flex;justify-content:space-between;font-weight:700;padding-top:10px}
+.monthgrid{display:grid;grid-template-columns:repeat(7,1fr);gap:5px}.dow{text-align:center;font-size:11px;color:#667085}.day{min-height:42px;border:1px solid #ddd;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:12px}
+.full{background:#dcfce7;border-color:#86efac;color:#166534;font-weight:bold}.partial{background:#fef3c7;border-color:#fcd34d}.today{outline:2px solid #2563eb}
+.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
 </style>
 </head>
 <body>
 <div class="wrap">
-<div class="top">
-<div><h1>Daily Discipline</h1><div class="sub">Small actions. Repeated daily.</div></div>
-<button id="todayBtn">Today</button>
-</div>
+<div class="top"><div><h1>Daily Discipline</h1><div class="sub">Build the day. Build the year.</div></div></div>
 
 <div class="card quote">“The pain of discipline is that every day feels the same; the pain of indiscipline is that every year feels the same.”</div>
 
 <div class="card">
-<div class="nav">
-<button id="prev">←</button>
-<div class="date" id="dateLabel"></div>
-<button id="next">→</button>
-</div>
+<div class="nav"><button id="prev">←</button><div class="date" id="date"></div><button id="next">→</button></div>
+<div style="text-align:center;margin-top:8px"><button id="today">Today</button></div>
 </div>
 
 <div class="card">
 <div id="habits"></div>
+<div class="summary"><span>Today's study time</span><span id="dayHours">0 h</span></div>
 <div class="small" id="dayText"></div>
-<div class="progress"><div class="bar" id="dayBar"></div></div>
+<div class="barbg"><div class="bar" id="dayBar"></div></div>
+<div class="small" style="margin-top:8px">Enter hours studied for Subjects 1–4. Any value above 0 counts as completed.</div>
 </div>
 
 <div class="card">
@@ -69,100 +50,74 @@ h2{font-size:18px;margin:0 0 10px}
 <div class="stat"><div class="num" id="monthly">0%</div><div class="lbl">Monthly</div></div>
 <div class="stat"><div class="num" id="streak">0</div><div class="lbl">Full-day streak</div></div>
 </div>
+<div class="stats" style="margin-top:10px">
+<div class="stat"><div class="num" id="weekHours">0 h</div><div class="lbl">Study hours this week</div></div>
+<div class="stat"><div class="num" id="monthHours">0 h</div><div class="lbl">Study hours this month</div></div>
+</div>
 </div>
 
 <div class="card">
 <h2 id="monthTitle">Monthly overview</h2>
 <div class="monthgrid" id="monthGrid"></div>
-<div class="small">Green = all 6 completed · Yellow = partly completed</div>
+<div class="small" style="margin-top:10px">Green = all 6 completed · Yellow = partly completed</div>
 </div>
 
 <div class="card">
 <h2>Data</h2>
-<button id="exportBtn">Export backup</button>
-<button id="clearBtn">Clear all data</button>
+<div class="actions">
+<button id="export">Export backup</button>
+<button id="import">Import backup</button>
+<button id="clear">Clear data</button>
+</div>
+<input type="file" id="file" accept=".json" hidden>
 </div>
 </div>
 
 <script>
-const H=["Subject 1","Subject 2","Subject 3","Subject 4","Did I go to gym?","Did I take 80 gram protein?"];
-const K="daily-discipline-tracker-v1";
-let D=JSON.parse(localStorage.getItem(K)||"{}");
-let S=new Date();S.setHours(0,0,0,0);
+const KEY="discipline-v2";
+let data=JSON.parse(localStorage.getItem(KEY)||"{}");
+let selected=new Date();selected.setHours(0,0,0,0);
 
-const iso=d=>d.toISOString().slice(0,10);
-const get=s=>D[s]||(D[s]=Array(6).fill(false));
-const pct=s=>get(s).filter(Boolean).length/6*100;
-const week=d=>{let x=new Date(d);x.setDate(x.getDate()-x.getDay());return x};
-const fmt=d=>d.toLocaleDateString(undefined,{weekday:"long",day:"numeric",month:"long",year:"numeric"});
-
-function save(){localStorage.setItem(K,JSON.stringify(D))}
-function range(a,n){let t=0;for(let i=0;i<n;i++){let d=new Date(a);d.setDate(d.getDate()+i);t+=pct(iso(d))}return t/n}
-
-function streak(){
-let d=new Date(S),today=new Date();today.setHours(0,0,0,0);
-if(d>today)d=today;
-let n=0;
-while(pct(iso(d))===100){n++;d.setDate(d.getDate()-1)}
-return n;
-}
-
-function month(){
-let y=S.getFullYear(),m=S.getMonth(),f=new Date(y,m,1),l=new Date(y,m+1,0);
-document.getElementById("monthTitle").textContent=f.toLocaleDateString(undefined,{month:"long",year:"numeric"})+" overview";
-let h=["Sun","Mon","Tue","Wed","Thu","Fri","Sat"].map(x=>`<div class="dow">${x}</div>`).join("");
-for(let i=0;i<f.getDay();i++)h+='<div class="day"></div>';
-for(let n=1;n<=l.getDate();n++){
-let d=new Date(y,m,n),p=pct(iso(d)),c=p==100?"full":p>0?"partial":"";
-let t=iso(d)==iso(new Date())?" today":"";
-h+=`<div class="day ${c}${t}">${n}${p==100?" ✓":""}</div>`;
-}
-document.getElementById("monthGrid").innerHTML=h;
-}
+function iso(d){return d.toISOString().slice(0,10)}
+function ent(s){if(!data[s])data[s]={h:[0,0,0,0],g:false,p:false};return data[s]}
+function hours(s){return ent(s).h.reduce((a,b)=>a+(+b||0),0)}
+function done(s){let e=ent(s);return e.h.filter(x=>x>0).length+(e.g?1:0)+(e.p?1:0)}
+function pct(s){return done(s)/6*100}
+function fmtH(n){return Number.isInteger(n)?n+" h":n.toFixed(1)+" h"}
+function startWeek(d){let x=new Date(d);x.setDate(x.getDate()-x.getDay());x.setHours(0,0,0,0);return x}
+function range(start,n,fn){let x=0;for(let i=0;i<n;i++){let d=new Date(start);d.setDate(d.getDate()+i);x+=fn(iso(d))}return x}
+function save(){localStorage.setItem(KEY,JSON.stringify(data))}
 
 function render(){
-let s=iso(S),e=get(s);
-document.getElementById("dateLabel").textContent=fmt(S);
-document.getElementById("habits").innerHTML=H.map((x,i)=>`
-<div class="habit"><span>${x}</span>
-<button class="check ${e[i]?"on":"off"}" data-i="${i}">${e[i]?"✓":"○"}</button></div>`).join("");
+ let s=iso(selected),e=ent(s);
+ document.getElementById("date").textContent=selected.toLocaleDateString(undefined,{weekday:"long",day:"numeric",month:"long",year:"numeric"});
 
-document.querySelectorAll(".check").forEach(b=>b.onclick=()=>{
-e[+b.dataset.i]=!e[+b.dataset.i];save();render()
-});
+ let names=["Subject 1","Subject 2","Subject 3","Subject 4"];
+ let html=names.map((n,i)=>`<div class="habit"><span>${n}</span><span><input class="hour" type="number" min="0" step=".5" inputmode="decimal" data-i="${i}" value="${e.h[i]||""}" placeholder="0"><span class="unit">hours</span></span></div>`).join("");
+ html+=`<div class="habit"><span>Did I go to gym?</span><button class="check ${e.g?"on":"off"}" id="gym">${e.g?"✓":"○"}</button></div>`;
+ html+=`<div class="habit"><span>Did I take 80 gram protein?</span><button class="check ${e.p?"on":"off"}" id="protein">${e.p?"✓":"○"}</button></div>`;
+ document.getElementById("habits").innerHTML=html;
 
-let p=pct(s);
-document.getElementById("daily").textContent=Math.round(p)+"%";
-document.getElementById("dayBar").style.width=p+"%";
-document.getElementById("dayText").textContent=e.filter(Boolean).length+" / 6 completed";
+ document.querySelectorAll("[data-i]").forEach(x=>x.onchange=()=>{
+   let v=parseFloat(x.value);if(!isFinite(v)||v<0)v=0;
+   e.h[+x.dataset.i]=Math.round(v*2)/2;save();render();
+ });
+ document.getElementById("gym").onclick=()=>{e.g=!e.g;save();render()};
+ document.getElementById("protein").onclick=()=>{e.p=!e.p;save();render()};
 
-let w=week(S);
-document.getElementById("weekly").textContent=Math.round(range(w,7))+"%";
-
-let m=new Date(S.getFullYear(),S.getMonth(),1);
-let last=new Date(S.getFullYear(),S.getMonth()+1,0);
-document.getElementById("monthly").textContent=Math.round(range(m,last.getDate()))+"%";
-document.getElementById("streak").textContent=streak();
-month();
+ let d=pct(s),w=startWeek(selected),m=new Date(selected.getFullYear(),selected.getMonth(),1),last=new Date(selected.getFullYear(),selected.getMonth()+1,0);
+ document.getElementById("daily").textContent=Math.round(d)+"%";
+ document.getElementById("dayBar").style.width=d+"%";
+ document.getElementById("dayText").textContent=done(s)+" / 6 completed";
+ document.getElementById("dayHours").textContent=fmtH(hours(s));
+ document.getElementById("weekly").textContent=Math.round(range(w,7,pct)/7)+"%";
+ document.getElementById("weekHours").textContent=fmtH(range(w,7,hours));
+ document.getElementById("monthly").textContent=Math.round(range(m,last.getDate(),pct)/last.getDate())+"%";
+ document.getElementById("monthHours").textContent=fmtH(range(m,last.getDate(),hours));
+ document.getElementById("streak").textContent=streak();
+ month();
 }
 
-prev.onclick=()=>{S.setDate(S.getDate()-1);render()};
-next.onclick=()=>{S.setDate(S.getDate()+1);render()};
-todayBtn.onclick=()=>{S=new Date();S.setHours(0,0,0,0);render()};
-
-exportBtn.onclick=()=>{
-let b=new Blob([JSON.stringify(D,null,2)],{type:"application/json"});
-let a=document.createElement("a");
-a.href=URL.createObjectURL(b);
-a.download="daily-discipline-backup.json";
-a.click();
-};
-
-clearBtn.onclick=()=>{
-if(confirm("Delete all tracker data?")){D={};save();render()}
-};
-
-render();
-</script>
-</body>
-</html>
+function streak(){
+ let d=new Date(selected),n=0,t=new Date();t.setHours(0,0,0,0);if(d>t)d=t;
+ while(pct(iso(d))===100){n++;d
