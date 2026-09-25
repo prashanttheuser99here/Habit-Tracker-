@@ -1,123 +1,424 @@
-<!doctype html>
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
+<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Daily Discipline Tracker</title>
 <style>
-*{box-sizing:border-box}body{margin:0;background:#f5f7fb;color:#172033;font-family:system-ui,-apple-system,Segoe UI,Arial,sans-serif}
-.wrap{max-width:720px;margin:auto;padding:16px 14px 40px}.top{display:flex;justify-content:space-between;align-items:center}
-h1{font-size:28px;margin:4px 0}.sub,.small{color:#667085;font-size:13px}
-.card{background:white;border:1px solid #e5e7eb;border-radius:18px;padding:16px;margin-top:14px;box-shadow:0 8px 24px #10182814}
-.quote{text-align:center;font-size:21px;line-height:1.35;font-weight:750;padding:20px 10px}
-.nav{display:flex;align-items:center;gap:8px}.date{flex:1;text-align:center;font-weight:700}
-button{border:1px solid #ddd;background:white;border-radius:12px;padding:10px 13px;font-size:15px}
-.habit{display:flex;justify-content:space-between;align-items:center;padding:14px 0;border-bottom:1px solid #eee}
-.habit:last-child{border:0}.hour{width:105px;height:42px;border:1px solid #ddd;border-radius:11px;padding:8px;font-size:16px;text-align:right}
-.unit{font-size:13px;color:#667085;margin-left:5px}.check{width:48px;height:42px;font-size:21px;font-weight:bold}
-.on{background:#dcfce7;color:#15803d;border-color:#86efac}.off{color:#98a2b3}
-.stats{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.stat{background:#f8fafc;border-radius:14px;padding:14px;text-align:center}
-.num{font-size:23px;font-weight:800}.lbl{font-size:12px;color:#667085}.barbg{height:11px;background:#e5e7eb;border-radius:99px;overflow:hidden;margin-top:10px}.bar{height:100%;background:#2563eb;width:0}
-.summary{display:flex;justify-content:space-between;font-weight:700;padding-top:10px}
-.monthgrid{display:grid;grid-template-columns:repeat(7,1fr);gap:5px}.dow{text-align:center;font-size:11px;color:#667085}.day{min-height:42px;border:1px solid #ddd;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:12px}
-.full{background:#dcfce7;border-color:#86efac;color:#166534;font-weight:bold}.partial{background:#fef3c7;border-color:#fcd34d}.today{outline:2px solid #2563eb}
-.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+*{box-sizing:border-box}
+body{margin:0;background:#f4f6f8;color:#172033;font-family:Arial,sans-serif}
+.container{max-width:700px;margin:auto;padding:15px}
+h1{text-align:center;margin:5px 0}
+.card{background:white;border-radius:16px;padding:16px;margin:14px 0;box-shadow:0 3px 12px #0001}
+.quote{text-align:center;font-size:20px;font-weight:bold;line-height:1.4}
+.nav{display:flex;align-items:center;gap:8px}
+.nav button{width:50px}
+.date{text-align:center;flex:1;font-weight:bold}
+button{border:1px solid #ccc;background:white;border-radius:10px;padding:10px 14px;font-size:15px}
+.item{display:flex;justify-content:space-between;align-items:center;padding:14px 0;border-bottom:1px solid #eee}
+.item:last-child{border-bottom:0}
+.subject{font-weight:bold}
+.hours{display:flex;align-items:center;gap:5px}
+.hours input{width:85px;padding:10px;border:1px solid #bbb;border-radius:9px;font-size:16px;text-align:center}
+.check{width:55px;height:42px;font-size:20px}
+.yes{background:#d9fbe5;border-color:#55b878}
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.stat{background:#f7f8fa;border-radius:12px;padding:13px;text-align:center}
+.number{font-size:22px;font-weight:bold}
+.label{font-size:12px;color:#667085;margin-top:3px}
+.progress-bg{height:12px;background:#ddd;border-radius:20px;overflow:hidden}
+.progress{height:100%;background:#2563eb;width:0}
+.month{display:grid;grid-template-columns:repeat(7,1fr);gap:4px}
+.day{height:40px;border:1px solid #ddd;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:12px}
+.full{background:#d9fbe5}
+.partial{background:#fff0bd}
+.small{font-size:12px;color:#667085}
 </style>
 </head>
+
 <body>
-<div class="wrap">
-<div class="top"><div><h1>Daily Discipline</h1><div class="sub">Build the day. Build the year.</div></div></div>
+<div class="container">
 
-<div class="card quote">“The pain of discipline is that every day feels the same; the pain of indiscipline is that every year feels the same.”</div>
+<h1>Daily Discipline Tracker</h1>
 
-<div class="card">
-<div class="nav"><button id="prev">←</button><div class="date" id="date"></div><button id="next">→</button></div>
-<div style="text-align:center;margin-top:8px"><button id="today">Today</button></div>
+<div class="card quote">
+“The pain of discipline is that every day feels the same; the pain of indiscipline is that every year feels the same.”
 </div>
 
 <div class="card">
-<div id="habits"></div>
-<div class="summary"><span>Today's study time</span><span id="dayHours">0 h</span></div>
-<div class="small" id="dayText"></div>
-<div class="barbg"><div class="bar" id="dayBar"></div></div>
-<div class="small" style="margin-top:8px">Enter hours studied for Subjects 1–4. Any value above 0 counts as completed.</div>
+<div class="nav">
+<button id="previous">←</button>
+<div class="date" id="date"></div>
+<button id="next">→</button>
+</div>
+<br>
+<center><button id="today">Today</button></center>
+</div>
+
+<div class="card">
+
+<div class="item">
+<div class="subject">Subject 1</div>
+<div class="hours">
+<input id="subject1" type="number" min="0" step="0.5" placeholder="0">
+<span>hours</span>
+</div>
+</div>
+
+<div class="item">
+<div class="subject">Subject 2</div>
+<div class="hours">
+<input id="subject2" type="number" min="0" step="0.5" placeholder="0">
+<span>hours</span>
+</div>
+</div>
+
+<div class="item">
+<div class="subject">Subject 3</div>
+<div class="hours">
+<input id="subject3" type="number" min="0" step="0.5" placeholder="0">
+<span>hours</span>
+</div>
+</div>
+
+<div class="item">
+<div class="subject">Subject 4</div>
+<div class="hours">
+<input id="subject4" type="number" min="0" step="0.5" placeholder="0">
+<span>hours</span>
+</div>
+</div>
+
+<div class="item">
+<div>Did I go to gym?</div>
+<button class="check" id="gym">○</button>
+</div>
+
+<div class="item">
+<div>Did I take 80 gram protein?</div>
+<button class="check" id="protein">○</button>
+</div>
+
+<h3>Today's study time: <span id="todayHours">0</span> hours</h3>
+<div class="small" id="completed">0 / 6 completed</div>
+<br>
+<div class="progress-bg">
+<div class="progress" id="progress"></div>
+</div>
+
 </div>
 
 <div class="card">
 <h2>Progress</h2>
+
 <div class="stats">
-<div class="stat"><div class="num" id="daily">0%</div><div class="lbl">Daily</div></div>
-<div class="stat"><div class="num" id="weekly">0%</div><div class="lbl">Weekly</div></div>
-<div class="stat"><div class="num" id="monthly">0%</div><div class="lbl">Monthly</div></div>
-<div class="stat"><div class="num" id="streak">0</div><div class="lbl">Full-day streak</div></div>
+<div class="stat">
+<div class="number" id="daily">0%</div>
+<div class="label">Daily</div>
 </div>
-<div class="stats" style="margin-top:10px">
-<div class="stat"><div class="num" id="weekHours">0 h</div><div class="lbl">Study hours this week</div></div>
-<div class="stat"><div class="num" id="monthHours">0 h</div><div class="lbl">Study hours this month</div></div>
+
+<div class="stat">
+<div class="number" id="weekly">0%</div>
+<div class="label">Weekly</div>
+</div>
+
+<div class="stat">
+<div class="number" id="monthly">0%</div>
+<div class="label">Monthly</div>
+</div>
+
+<div class="stat">
+<div class="number" id="streak">0</div>
+<div class="label">Streak</div>
 </div>
 </div>
 
-<div class="card">
-<h2 id="monthTitle">Monthly overview</h2>
-<div class="monthgrid" id="monthGrid"></div>
-<div class="small" style="margin-top:10px">Green = all 6 completed · Yellow = partly completed</div>
+<br>
+
+<div class="stats">
+<div class="stat">
+<div class="number" id="weekHours">0</div>
+<div class="label">Study hours this week</div>
+</div>
+
+<div class="stat">
+<div class="number" id="monthHours">0</div>
+<div class="label">Study hours this month</div>
+</div>
+</div>
+
 </div>
 
 <div class="card">
-<h2>Data</h2>
-<div class="actions">
-<button id="export">Export backup</button>
-<button id="import">Import backup</button>
-<button id="clear">Clear data</button>
+<h2 id="monthTitle">Monthly Overview</h2>
+<div class="month" id="calendar"></div>
+<p class="small">Green = all 6 completed · Yellow = partly completed</p>
 </div>
-<input type="file" id="file" accept=".json" hidden>
-</div>
+
 </div>
 
 <script>
-const KEY="discipline-v2";
-let data=JSON.parse(localStorage.getItem(KEY)||"{}");
-let selected=new Date();selected.setHours(0,0,0,0);
+const STORAGE="discipline_tracker_v4";
 
-function iso(d){return d.toISOString().slice(0,10)}
-function ent(s){if(!data[s])data[s]={h:[0,0,0,0],g:false,p:false};return data[s]}
-function hours(s){return ent(s).h.reduce((a,b)=>a+(+b||0),0)}
-function done(s){let e=ent(s);return e.h.filter(x=>x>0).length+(e.g?1:0)+(e.p?1:0)}
-function pct(s){return done(s)/6*100}
-function fmtH(n){return Number.isInteger(n)?n+" h":n.toFixed(1)+" h"}
-function startWeek(d){let x=new Date(d);x.setDate(x.getDate()-x.getDay());x.setHours(0,0,0,0);return x}
-function range(start,n,fn){let x=0;for(let i=0;i<n;i++){let d=new Date(start);d.setDate(d.getDate()+i);x+=fn(iso(d))}return x}
-function save(){localStorage.setItem(KEY,JSON.stringify(data))}
-
-function render(){
- let s=iso(selected),e=ent(s);
- document.getElementById("date").textContent=selected.toLocaleDateString(undefined,{weekday:"long",day:"numeric",month:"long",year:"numeric"});
-
- let names=["Subject 1","Subject 2","Subject 3","Subject 4"];
- let html=names.map((n,i)=>`<div class="habit"><span>${n}</span><span><input class="hour" type="number" min="0" step=".5" inputmode="decimal" data-i="${i}" value="${e.h[i]||""}" placeholder="0"><span class="unit">hours</span></span></div>`).join("");
- html+=`<div class="habit"><span>Did I go to gym?</span><button class="check ${e.g?"on":"off"}" id="gym">${e.g?"✓":"○"}</button></div>`;
- html+=`<div class="habit"><span>Did I take 80 gram protein?</span><button class="check ${e.p?"on":"off"}" id="protein">${e.p?"✓":"○"}</button></div>`;
- document.getElementById("habits").innerHTML=html;
-
- document.querySelectorAll("[data-i]").forEach(x=>x.onchange=()=>{
-   let v=parseFloat(x.value);if(!isFinite(v)||v<0)v=0;
-   e.h[+x.dataset.i]=Math.round(v*2)/2;save();render();
- });
- document.getElementById("gym").onclick=()=>{e.g=!e.g;save();render()};
- document.getElementById("protein").onclick=()=>{e.p=!e.p;save();render()};
-
- let d=pct(s),w=startWeek(selected),m=new Date(selected.getFullYear(),selected.getMonth(),1),last=new Date(selected.getFullYear(),selected.getMonth()+1,0);
- document.getElementById("daily").textContent=Math.round(d)+"%";
- document.getElementById("dayBar").style.width=d+"%";
- document.getElementById("dayText").textContent=done(s)+" / 6 completed";
- document.getElementById("dayHours").textContent=fmtH(hours(s));
- document.getElementById("weekly").textContent=Math.round(range(w,7,pct)/7)+"%";
- document.getElementById("weekHours").textContent=fmtH(range(w,7,hours));
- document.getElementById("monthly").textContent=Math.round(range(m,last.getDate(),pct)/last.getDate())+"%";
- document.getElementById("monthHours").textContent=fmtH(range(m,last.getDate(),hours));
- document.getElementById("streak").textContent=streak();
- month();
+let database={};
+try{
+ database=JSON.parse(localStorage.getItem(STORAGE)||"{}");
+}catch(e){
+ database={};
 }
 
-function streak(){
- let d=new Date(selected),n=0,t=new Date();t.setHours(0,0,0,0);if(d>t)d=t;
- while(pct(iso(d))===100){n++;d
+let selected=new Date();
+selected.setHours(0,0,0,0);
+
+function dateKey(d){
+ return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");
+}
+
+function getData(key){
+ if(!database[key]){
+  database[key]={
+   subject1:0,
+   subject2:0,
+   subject3:0,
+   subject4:0,
+   gym:false,
+   protein:false
+  };
+ }
+ return database[key];
+}
+
+function save(){
+ localStorage.setItem(STORAGE,JSON.stringify(database));
+}
+
+function totalHours(key){
+ const d=getData(key);
+ return Number(d.subject1||0)+
+        Number(d.subject2||0)+
+        Number(d.subject3||0)+
+        Number(d.subject4||0);
+}
+
+function completed(key){
+ const d=getData(key);
+ let n=0;
+ if(Number(d.subject1)>0)n++;
+ if(Number(d.subject2)>0)n++;
+ if(Number(d.subject3)>0)n++;
+ if(Number(d.subject4)>0)n++;
+ if(d.gym)n++;
+ if(d.protein)n++;
+ return n;
+}
+
+function percentage(key){
+ return completed(key)/6*100;
+}
+
+function render(){
+ const key=dateKey(selected);
+ const d=getData(key);
+
+ document.getElementById("date").textContent=
+ selected.toLocaleDateString(undefined,{
+  weekday:"long",
+  day:"numeric",
+  month:"long",
+  year:"numeric"
+ });
+
+ document.getElementById("subject1").value=d.subject1||"";
+ document.getElementById("subject2").value=d.subject2||"";
+ document.getElementById("subject3").value=d.subject3||"";
+ document.getElementById("subject4").value=d.subject4||"";
+
+ const gym=document.getElementById("gym");
+ gym.textContent=d.gym?"✓":"○";
+ gym.className="check "+(d.gym?"yes":"");
+
+ const protein=document.getElementById("protein");
+ protein.textContent=d.protein?"✓":"○";
+ protein.className="check "+(d.protein?"yes":"");
+
+ const p=percentage(key);
+
+ document.getElementById("todayHours").textContent=totalHours(key);
+ document.getElementById("completed").textContent=completed(key)+" / 6 completed";
+ document.getElementById("progress").style.width=p+"%";
+ document.getElementById("daily").textContent=Math.round(p)+"%";
+
+ renderPeriods();
+ renderCalendar();
+}
+
+function renderPeriods(){
+
+ const weekStart=new Date(selected);
+ weekStart.setDate(selected.getDate()-selected.getDay());
+
+ let weekPercent=0;
+ let weekHours=0;
+
+ for(let i=0;i<7;i++){
+  let d=new Date(weekStart);
+  d.setDate(weekStart.getDate()+i);
+  let k=dateKey(d);
+  weekPercent+=percentage(k);
+  weekHours+=totalHours(k);
+ }
+
+ document.getElementById("weekly").textContent=
+ Math.round(weekPercent/7)+"%";
+
+ document.getElementById("weekHours").textContent=
+ weekHours;
+
+ const monthStart=new Date(
+  selected.getFullYear(),
+  selected.getMonth(),
+  1
+ );
+
+ const daysInMonth=new Date(
+  selected.getFullYear(),
+  selected.getMonth()+1,
+  0
+ ).getDate();
+
+ let monthPercent=0;
+ let monthHours=0;
+
+ for(let i=1;i<=daysInMonth;i++){
+  let d=new Date(
+   selected.getFullYear(),
+   selected.getMonth(),
+   i
+  );
+  let k=dateKey(d);
+  monthPercent+=percentage(k);
+  monthHours+=totalHours(k);
+ }
+
+ document.getElementById("monthly").textContent=
+ Math.round(monthPercent/daysInMonth)+"%";
+
+ document.getElementById("monthHours").textContent=
+ monthHours;
+
+ let streak=0;
+ let d=new Date(selected);
+
+ while(percentage(dateKey(d))===100){
+  streak++;
+  d.setDate(d.getDate()-1);
+ }
+
+ document.getElementById("streak").textContent=streak;
+}
+
+function renderCalendar(){
+
+ const year=selected.getFullYear();
+ const month=selected.getMonth();
+
+ const first=new Date(year,month,1);
+ const last=new Date(year,month+1,0);
+
+ document.getElementById("monthTitle").textContent=
+ first.toLocaleDateString(undefined,{
+  month:"long",
+  year:"numeric"
+ })+" Overview";
+
+ let html="";
+
+ for(let i=0;i<first.getDay();i++){
+  html+="<div></div>";
+ }
+
+ for(let day=1;day<=last.getDate();day++){
+
+  const d=new Date(year,month,day);
+  const k=dateKey(d);
+  const p=percentage(k);
+
+  let cls="day";
+
+  if(p===100)cls+=" full";
+  else if(p>0)cls+=" partial";
+
+  html+=
+  '<div class="'+cls+'">'+
+  day+
+  (p===100?" ✓":"")+
+  "</div>";
+ }
+
+ document.getElementById("calendar").innerHTML=html;
+}
+
+function updateSubject(id){
+ const key=dateKey(selected);
+ const d=getData(key);
+
+ let value=Number(document.getElementById(id).value);
+
+ if(!isFinite(value)||value<0)value=0;
+
+ d[id]=value;
+ save();
+ render();
+}
+
+document.getElementById("subject1").addEventListener("change",function(){
+ updateSubject("subject1");
+});
+
+document.getElementById("subject2").addEventListener("change",function(){
+ updateSubject("subject2");
+});
+
+document.getElementById("subject3").addEventListener("change",function(){
+ updateSubject("subject3");
+});
+
+document.getElementById("subject4").addEventListener("change",function(){
+ updateSubject("subject4");
+});
+
+document.getElementById("gym").addEventListener("click",function(){
+ const d=getData(dateKey(selected));
+ d.gym=!d.gym;
+ save();
+ render();
+});
+
+document.getElementById("protein").addEventListener("click",function(){
+ const d=getData(dateKey(selected));
+ d.protein=!d.protein;
+ save();
+ render();
+});
+
+document.getElementById("previous").addEventListener("click",function(){
+ selected.setDate(selected.getDate()-1);
+ render();
+});
+
+document.getElementById("next").addEventListener("click",function(){
+ selected.setDate(selected.getDate()+1);
+ render();
+});
+
+document.getElementById("today").addEventListener("click",function(){
+ selected=new Date();
+ selected.setHours(0,0,0,0);
+ render();
+});
+
+render();
+</script>
+
+</body>
+</html>
